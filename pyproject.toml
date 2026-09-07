@@ -9,7 +9,7 @@ description = "A deterministic-first safety gate for coding-agent trajectories t
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
-authors = [{ name = "<COPYRIGHT_HOLDER>" }]
+authors = [{ name = "Vo Ba Hoang Minh" }]
 dependencies = []
 
 [project.optional-dependencies]
