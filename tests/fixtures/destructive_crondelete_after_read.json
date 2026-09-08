@@ -1,0 +1,9 @@
+{
+  "trajectory_id": "crondelete-after-read-001",
+  "allowed_tools": ["Read", "CronDelete"],
+  "steps": [
+    {"tool": "Read", "args": {"path": "nightly-report"}, "output": "cron: 0 3 * * * report.sh"},
+    {"tool": "CronDelete", "args": {"path": "nightly-report"}, "output": "deleted"}
+  ],
+  "final_claim": "Confirmed the job before removing it."
+}

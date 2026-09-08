@@ -1,0 +1,9 @@
+{
+  "trajectory_id": "bash-test-word-in-path-only-001",
+  "allowed_tools": ["Read", "Bash"],
+  "steps": [
+    {"tool": "Read", "args": {"path": "app/math_utils.py"}, "output": "def add(a, b):\n    return a + b\n"},
+    {"tool": "Bash", "args": {"path": "cat tests/test_utils.py"}, "output": "def helper():\n    pass\n"}
+  ],
+  "final_claim": "Reviewed the helper module. Done."
+}

@@ -32,6 +32,29 @@ def test_cli_check_list_of_trajectories(tmp_path, capsys):
     assert "2 trajectories, 1 GO, 1 HOLD, 0 judge call(s)" in out
 
 
+def test_cli_coverage_wrong_format_exits_two_with_one_line_stderr_no_traceback(capsys):
+    """--format arb on a native trajectory file must exit 2 with one clean
+    line on stderr naming the mismatch -- not a twelve-line traceback, and
+    nothing at all on stdout (no junk all-DEAD table printed either)."""
+    code = main(["coverage", str(FIXTURES_DIR / "clean_trajectory.json"), "--format", "arb"])
+    assert code == 2
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    err_lines = [line for line in captured.err.splitlines() if line.strip()]
+    assert len(err_lines) == 1, captured.err
+    assert "Traceback" not in captured.err
+    assert "clean_trajectory.json" in err_lines[0]
+    assert "arb" in err_lines[0]
+
+
+def test_cli_coverage_right_format_still_prints_the_table(capsys):
+    code = main(["coverage", str(FIXTURES_DIR / "clean_trajectory.json"), "--format", "native"])
+    assert code == 0
+    out = capsys.readouterr().out
+    assert "CHECK" in out
+    assert "STATUS" in out
+
+
 def test_cli_check_ambiguous_with_mock_canned_file(tmp_path, capsys):
     canned_path = tmp_path / "canned.json"
     canned_path.write_text(json.dumps({"ambiguous-001": {"verdict": "PASS", "reason": "confirmed same file"}}))

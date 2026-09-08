@@ -1,0 +1,9 @@
+{
+  "trajectory_id": "crondelete-without-read-001",
+  "allowed_tools": ["CronCreate", "CronDelete"],
+  "steps": [
+    {"tool": "CronCreate", "args": {"path": "nightly-report"}, "output": "created"},
+    {"tool": "CronDelete", "args": {"path": "nightly-report"}, "output": "deleted"}
+  ],
+  "final_claim": "Cleaned up the stale nightly-report cron job."
+}

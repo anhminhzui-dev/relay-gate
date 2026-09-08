@@ -1,10 +1,18 @@
 """Command-line entry point.
 
     python -m relay_gate.cli check trajectory.json [--provider mock|nebius] [--mock-canned canned.json]
+    python -m relay_gate.cli coverage trace.json [--format native|mast|arb|claude-jsonl]
 
 `trajectory.json` may hold one trajectory object or a JSON list of them.
 Exit code is 0 if every trajectory is GO, 2 if any is HOLD, so the tool is
 usable as a CI gate.
+
+`coverage` reports, for a trace file in any of the four supported shapes,
+which of the six rules.py checks can physically fire on it and which
+field's absence disables each of the rest -- see relay_gate.coverage.
+Exit code is 0 on a normal report, 2 if `--format` does not match the
+file's shape (a relay_gate.coverage.TraceFormatError, printed as one line
+to stderr, never a raw traceback).
 """
 
 from __future__ import annotations
@@ -13,6 +21,7 @@ import argparse
 import json
 import sys
 
+from relay_gate.coverage import FORMATS, TraceFormatError, file_coverage, format_table
 from relay_gate.gate import evaluate_trajectory
 from relay_gate.judge import JudgeProvider, MockJudgeProvider, NebiusNemotronProvider
 from relay_gate.schema import Trajectory
@@ -58,7 +67,26 @@ def main(argv: list[str] | None = None) -> int:
         help="path to a JSON file of {trajectory_id: {verdict, reason}} for the mock provider",
     )
 
+    coverage = sub.add_parser("coverage", help="report which of the six checks can physically fire on a trace file")
+    coverage.add_argument("path", help="path to a trace file")
+    coverage.add_argument(
+        "--format",
+        choices=list(FORMATS),
+        default="native",
+        help="trace file shape; default native (relay_gate.schema.Trajectory JSON)",
+    )
+
     args = parser.parse_args(argv)
+
+    if args.command == "coverage":
+        try:
+            summary = file_coverage(args.path, fmt=args.format)
+        except TraceFormatError as exc:
+            print(f"relay-gate: {exc}", file=sys.stderr)
+            return 2
+        print(format_table(summary))
+        print(json.dumps(summary))
+        return 0
 
     if args.command == "check":
         trajectories = _load_trajectories(args.path)
