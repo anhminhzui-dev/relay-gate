@@ -72,9 +72,9 @@ Two download passes, each a single Bash call with a per-file
    login/paywall block.
 
 Total: **39 trajectory files** downloaded to
-`M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/data/cleaned/`, plus
+`./external_data/arb/data/cleaned/`, plus
 `annotations.csv` (265,137 bytes, 1,408 data rows) at
-`M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/data/annotations.csv`. Every
+`./external_data/arb/data/annotations.csv`. Every
 individual file is below the 8 MB cap enforced at download time (the
 first 15 alone total 4.3 MB on disk, confirmed with `du -sh`; the fuller
 39-file total was not re-measured but is bounded above by 39 x 8 MB).
@@ -308,9 +308,9 @@ consequence, per rule:
 - `bench/external/score_arb.py` (this repo): runs the gate and all six
   rules over every downloaded record and prints the tables above.
 - `bench/external/ARB_RESULTS.md` (this repo, this file).
-- `M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/data/annotations.csv`
+- `./external_data/arb/data/annotations.csv`
   (outside the repo): the downloaded expert-label source, 265,137 bytes,
   1,408 rows.
-- `M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/data/cleaned/*.json`
+- `./external_data/arb/data/cleaned/*.json`
   (outside the repo): 39 downloaded trajectory files, task_ids listed
   above.

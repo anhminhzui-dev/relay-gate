@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import pathlib
 import sys
 import time
@@ -69,7 +70,7 @@ from relay_gate.schema import Trajectory  # noqa: E402
 
 MAX_SECONDS = 240.0  # this script's own runtime cap; well under the 300s Bash budget
 
-DEFAULT_TRAJECTORIES_DIR = r"M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/trajectories"
+DEFAULT_TRAJECTORIES_DIR = os.environ.get("RELAY_GATE_TRAJECTORIES_DIR", "./data/trajectories")
 
 # name -> the six rule functions, in the order rules.ALL_RULES defines them,
 # so "per check class" in the report always means one of these six, never a

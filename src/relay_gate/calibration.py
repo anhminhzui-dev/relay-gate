@@ -23,10 +23,10 @@ computes exactly that, for all six checks, on both sources, under the key
 Data flow, all traced to a file, nothing hand-typed:
 
   1. Read the two results files' own ``per_record_lines`` (one line per
-     labelled record, already produced by a real bench run):
-         M:/AGENT_VAULT/PORTFOLIO/bench/external/mast/results.json
-         M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/results.json
-     Each line carries that record's id, its label/bucket, and which
+     labelled record, already produced by a real bench run) at the paths
+     named by ``RELAY_GATE_MAST_RESULTS`` / ``RELAY_GATE_ARB_RESULTS``
+     (see module-level defaults below). Each line carries that record's
+     id, its label/bucket, and which
      checks (``rules_fired``) actually fired on it -- parsed here, not
      re-derived.
   2. Reconstruct each labelled record's real ``Trajectory`` from the
@@ -53,19 +53,30 @@ it.
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import re
 
 from relay_gate import coverage as coverage_module
 
-# Absolute paths, exactly as named in the task that authored this module:
-# the labelled-set results and their raw source trees live under the
-# shared PORTFOLIO bench tree, one level above this repo's own bench/
-# (which holds only the adapter+scorer scripts, not the labelled data).
-_MAST_RESULTS = pathlib.Path("M:/AGENT_VAULT/PORTFOLIO/bench/external/mast/results.json")
-_ARB_RESULTS = pathlib.Path("M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/results.json")
-_MAST_RAW = pathlib.Path("M:/AGENT_VAULT/PORTFOLIO/bench/external/mast/data/MAD_human_labelled_dataset.json")
-_ARB_CLEANED_DIR = pathlib.Path("M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/data/cleaned")
+# Paths to the labelled-set results and their raw source trees. These live
+# outside this repo by default (the downloaded external benchmark data is
+# not committed); override via env vars to point at wherever that data was
+# fetched, or drop it under the neutral relative defaults below.
+_MAST_RESULTS = pathlib.Path(
+    os.environ.get("RELAY_GATE_MAST_RESULTS", "./external_data/mast/results.json")
+)
+_ARB_RESULTS = pathlib.Path(
+    os.environ.get("RELAY_GATE_ARB_RESULTS", "./external_data/arb/results.json")
+)
+_MAST_RAW = pathlib.Path(
+    os.environ.get(
+        "RELAY_GATE_MAST_RAW", "./external_data/mast/data/MAD_human_labelled_dataset.json"
+    )
+)
+_ARB_CLEANED_DIR = pathlib.Path(
+    os.environ.get("RELAY_GATE_ARB_CLEANED_DIR", "./external_data/arb/data/cleaned")
+)
 _OUT_PATH = pathlib.Path(__file__).resolve().parent / "data" / "calibration.json"
 
 # coverage.py's CHECK_ORDER name -> the rules.py function name each

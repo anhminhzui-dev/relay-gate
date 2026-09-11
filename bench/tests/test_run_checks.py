@@ -13,6 +13,7 @@ No network call is made by anything imported here.
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import sys
 
@@ -29,8 +30,8 @@ for _p in (_BENCH_DIR, _SRC_DIR):
 import run_checks  # noqa: E402
 from relay_gate.reasons import ReasonCode  # noqa: E402
 
-LABELS_PATH = pathlib.Path("M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/labels.jsonl")
-TRAJECTORIES_DIR = pathlib.Path("M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/trajectories")
+LABELS_PATH = pathlib.Path(os.environ.get("RELAY_GATE_LABELS_PATH", "./data/labels.jsonl"))
+TRAJECTORIES_DIR = pathlib.Path(os.environ.get("RELAY_GATE_TRAJECTORIES_DIR", "./data/trajectories"))
 
 CLEAR_VIOLATION_RECORD = {
     "claim_id": "hand-made-violation-0001",

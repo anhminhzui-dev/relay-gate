@@ -16,9 +16,9 @@ any point: the annotations CSV lives in the GitHub repo (public raw file)
 and the per-trajectory JSON files resolve from the public HF dataset
 `resolve/main` path with no auth header.
 
-Two on-disk pieces this adapter reads, both under
-M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/data/ (outside this repo, per
-the fetch rule):
+Two on-disk pieces this adapter reads, both under the directory named by
+the ``RELAY_GATE_ARB_CLEANED_DIR`` env var's parent (default
+``./external_data/arb/data/``, outside this repo, per the fetch rule):
 
   1. annotations.csv (265,137 bytes, 1,408 data rows), downloaded from
      https://raw.githubusercontent.com/McGill-NLP/agent-reward-bench/main/agent_reward_bench/data/annotations.csv

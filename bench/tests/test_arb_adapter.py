@@ -2,8 +2,9 @@
 
 Uses hand-made AgentRewardBench-shaped fixture records (not downloaded
 data) so the adapter's action parsing, final-claim extraction, and label
-bucketing are checked independently of whatever is on disk under
-M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/data/. A second, real-shaped
+bucketing are checked independently of whatever is on disk under the
+directory named by ``RELAY_GATE_ARB_CLEANED_DIR``'s parent (default
+``./external_data/arb/data/``). A second, real-shaped
 smoke test runs against the actual downloaded data when present, skipped
 otherwise.
 

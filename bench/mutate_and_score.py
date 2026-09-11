@@ -69,6 +69,7 @@ from __future__ import annotations
 import argparse
 import dataclasses
 import json
+import os
 import pathlib
 import random
 import sys
@@ -84,7 +85,7 @@ import run_checks  # noqa: E402  (also inserts src/ onto sys.path for relay_gate
 from relay_gate.gate import evaluate_trajectory  # noqa: E402
 from relay_gate import rules as rg_rules  # noqa: E402
 
-DEFAULT_TRAJECTORIES_DIR = r"M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/trajectories"
+DEFAULT_TRAJECTORIES_DIR = os.environ.get("RELAY_GATE_TRAJECTORIES_DIR", "./data/trajectories")
 DEFAULT_SEED = 20260908
 MAX_SECONDS_DEFAULT = 120.0
 

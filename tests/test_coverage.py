@@ -419,13 +419,49 @@ def test_adapt_claim_record_matches_bench_run_checks_adapt_record():
     bench/run_checks.py's own adapt_record -- an unguarded drift seam. It
     now delegates to that same function (one mapping, not two); this
     proves the delegation is wired correctly and produces the exact same
-    Trajectory on three real records from the extracted claude.jsonl pool."""
+    Trajectory on records shaped exactly like the extract_trajectories.py
+    claim schema (bench/README.md), without depending on any real
+    extracted trajectory file being present on disk."""
     coverage_module._ensure_bench_on_path()
     import run_checks as rc
 
-    path = pathlib.Path("M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/trajectories/claude.jsonl")
-    with open(path, "r", encoding="utf-8") as fh:
-        raw_records = [json.loads(next(fh)) for _ in range(3)]
+    raw_records = [
+        {
+            "claim_id": "sample-claim-0001",
+            "source": "claude",
+            "file": "MISSING",
+            "line_no": 1,
+            "timestamp": "2026-09-08T00:00:00.000Z",
+            "claim_text": "Implemented the feature and all tests pass.",
+            "preceding_actions": [
+                {"tool": "Edit", "target": "app/feature.py", "timestamp": "2026-09-08T00:00:00.000Z"},
+            ],
+            "session_id": "sample-session-0001",
+        },
+        {
+            "claim_id": "sample-claim-0002",
+            "source": "claude",
+            "file": "MISSING",
+            "line_no": 7,
+            "timestamp": "2026-09-08T00:01:00.000Z",
+            "claim_text": "Investigated the issue; no code was changed.",
+            "preceding_actions": [],
+            "session_id": "sample-session-0001",
+        },
+        {
+            "claim_id": "sample-claim-0003",
+            "source": "codex",
+            "file": "MISSING",
+            "line_no": 3,
+            "timestamp": "2026-09-08T00:02:00.000Z",
+            "claim_text": "Removed the legacy module. Done.",
+            "preceding_actions": [
+                {"tool": "Bash", "target": "MISSING", "timestamp": "2026-09-08T00:01:30.000Z"},
+                {"tool": "Read", "target": "app/config.py", "timestamp": "2026-09-08T00:01:45.000Z"},
+            ],
+            "session_id": "sample-session-0002",
+        },
+    ]
 
     for raw in raw_records:
         expected = rc.adapt_record(raw)

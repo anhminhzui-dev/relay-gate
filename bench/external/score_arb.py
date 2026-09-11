@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Score Relay Gate's six offline rules against the AgentRewardBench label.
 
-Reads every downloaded AgentRewardBench trajectory JSON under
-M:/AGENT_VAULT/PORTFOLIO/bench/external/arb/data/cleaned/ (outside this
+Reads every downloaded AgentRewardBench trajectory JSON under the
+directory named by ``RELAY_GATE_ARB_CLEANED_DIR`` (default
+``./external_data/arb/data/cleaned/``, outside this
 repo -- see bench/arb_adapter.py's module docstring for source, licence,
 and exactly which files were fetched and why), converts each via
 bench/arb_adapter.py, buckets each into FALSE_DONE / CLEAN / EXCLUDED

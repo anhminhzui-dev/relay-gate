@@ -109,6 +109,24 @@ only the configuration path (missing key, missing model id, both set) and
 never invokes `.judge()`, so the suite never spends a credit and never
 needs network access.
 
+## Configuration
+
+The bench scripts (not the core `relay_gate` package, which takes no
+environment configuration) read their data locations from environment
+variables, each with a neutral relative default so the repo runs
+out of the box with no machine-specific setup:
+
+| Variable | Default | Used by |
+|---|---|---|
+| `RELAY_GATE_CLAUDE_GLOB` | `~/.claude/projects/*/*.jsonl` | `bench/extract_trajectories.py` |
+| `RELAY_GATE_CODEX_GLOB` | `~/.codex/sessions/**/*.jsonl` | `bench/extract_trajectories.py` |
+| `RELAY_GATE_TRAJECTORIES_DIR` | `./data/trajectories` | `bench/extract_trajectories.py`, `bench/mutate_and_score.py`, `bench/run_checks.py` |
+| `RELAY_GATE_LABELS_PATH` | `./data/labels.jsonl` | `bench/tests/test_run_checks.py` |
+| `RELAY_GATE_MAST_RESULTS` | `./external_data/mast/results.json` | `src/relay_gate/calibration.py` |
+| `RELAY_GATE_ARB_RESULTS` | `./external_data/arb/results.json` | `src/relay_gate/calibration.py` |
+| `RELAY_GATE_MAST_RAW` | `./external_data/mast/data/MAD_human_labelled_dataset.json` | `src/relay_gate/calibration.py`, `bench/external/score_external.py`, `bench/tests/test_external_adapter.py` |
+| `RELAY_GATE_ARB_CLEANED_DIR` | `./external_data/arb/data/cleaned` | `src/relay_gate/calibration.py`, `bench/arb_adapter.py`, `bench/external/score_arb.py` |
+
 ## Tests
 
 ```
@@ -262,7 +280,7 @@ test (2026-09-08).** Four changes:
 
 1. `src/relay_gate/calibration.py` (new) rebuilds
    `src/relay_gate/data/calibration.json` (new) straight from the two bench
-   results files (`M:/AGENT_VAULT/PORTFOLIO/bench/external/mast/results.json`,
+   results files (`./external_data/mast/results.json`,
    19 labelled records, dated 2026-09-08; and `.../arb/results.json`, 23
    scored records, dated 2026-09-08), never hand-typed. Run it with
    `python -m relay_gate.calibration`. Verbatim from both files: only

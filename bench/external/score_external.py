@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Score Relay Gate's six offline rules against the MAST external label.
 
-Reads the downloaded MAST human-labelled split from
-M:/AGENT_VAULT/PORTFOLIO/bench/external/mast/data/MAD_human_labelled_dataset.json
-(outside this repo -- see bench/external_adapter.py's module docstring for
+Reads the downloaded MAST human-labelled split from the path named by
+``RELAY_GATE_MAST_RAW`` (default
+``./external_data/mast/data/MAD_human_labelled_dataset.json``,
+outside this repo -- see bench/external_adapter.py's module docstring for
 why that source/split was picked), converts every record via
 bench/external_adapter.py, runs relay_gate.gate.evaluate_trajectory with
 provider=None (the offline path -- no network/model call anywhere in this

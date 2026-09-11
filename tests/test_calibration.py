@@ -17,6 +17,19 @@ from relay_gate import coverage as coverage_module
 
 DATA_PATH = pathlib.Path(__file__).parent.parent / "src" / "relay_gate" / "data" / "calibration.json"
 
+# This whole module regenerates and re-verifies data/calibration.json against
+# the two real downloaded external label sets (MAST-Data, AgentRewardBench),
+# which are not committed to this repo (large third-party licensed data --
+# see src/relay_gate/calibration.py's module docstring). Point
+# RELAY_GATE_MAST_RESULTS / RELAY_GATE_ARB_RESULTS (and the two companion
+# raw-source env vars) at a local copy to exercise this suite; otherwise it
+# skips cleanly rather than failing on a path that only exists on the
+# machine that fetched the data.
+pytestmark = pytest.mark.skipif(
+    not (calibration._MAST_RESULTS.exists() and calibration._ARB_RESULTS.exists()),
+    reason="requires the downloaded MAST/ARB external results on disk (see RELAY_GATE_MAST_RESULTS / RELAY_GATE_ARB_RESULTS)",
+)
+
 
 def test_build_calibration_matches_worked_example_from_the_task():
     """FALSE_COMPLETION_CLAIM on the two real results files, ALIVE-restricted:

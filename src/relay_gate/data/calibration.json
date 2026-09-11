@@ -1,10 +1,10 @@
 {
   "date": "2026-09-08",
   "generated_from": {
-    "mast_results": "M:\\AGENT_VAULT\\PORTFOLIO\\bench\\external\\mast\\results.json",
-    "arb_results": "M:\\AGENT_VAULT\\PORTFOLIO\\bench\\external\\arb\\results.json",
-    "mast_raw": "M:\\AGENT_VAULT\\PORTFOLIO\\bench\\external\\mast\\data\\MAD_human_labelled_dataset.json",
-    "arb_cleaned_dir": "M:\\AGENT_VAULT\\PORTFOLIO\\bench\\external\\arb\\data\\cleaned"
+    "mast_results": "external_data/mast/results.json",
+    "arb_results": "external_data/arb/results.json",
+    "mast_raw": "external_data/mast/data/MAD_human_labelled_dataset.json",
+    "arb_cleaned_dir": "external_data/arb/data/cleaned"
   },
   "checks": {
     "DESTRUCTIVE_WITHOUT_READ": {

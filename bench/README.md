@@ -7,13 +7,13 @@ led up to it.
 
 Inputs (read-only, never modified):
 
-- Claude Code sessions: `C:/Users/Admin/.claude/projects/C--Users-Admin-Desktop-researches/*.jsonl`
-- Codex rollouts: `C:/Users/Admin/.codex/sessions/2026/**/*.jsonl`
+- Claude Code sessions: `~/.claude/projects/*/*.jsonl` (override with `RELAY_GATE_CLAUDE_GLOB`)
+- Codex rollouts: `~/.codex/sessions/**/*.jsonl` (override with `RELAY_GATE_CODEX_GLOB`)
 
 Output (write-only target of this script):
 
-- `M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/trajectories/claude.jsonl`
-- `M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/trajectories/codex.jsonl`
+- `./data/trajectories/claude.jsonl`
+- `./data/trajectories/codex.jsonl`
 
 Each run overwrites both output files from scratch (they are not append
 logs) — the files always reflect the most recent invocation only.
@@ -31,7 +31,7 @@ python extract_trajectories.py --max-seconds 480
 | `--limit-files N` | Cap files read **per source, independently** — the first N Claude files (sorted by filename) and, separately, the first N Codex files (sorted by full path). Omit for no cap. |
 | `--max-seconds S` | Total wall-clock budget across both sources combined (default 3600). If the budget runs out mid-list, remaining files are simply never opened; the run ends and reports `capped_total=True` on its summary line. |
 | `--claude-glob` / `--codex-glob` | Override the input glob (defaults above). |
-| `--out-dir` | Override the output directory (default `M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/trajectories`). |
+| `--out-dir` | Override the output directory (default `./data/trajectories`). |
 
 File-selection order matters for reproducibility and to dodge the
 "actively-being-written file looks newest by mtime" trap: Codex files are

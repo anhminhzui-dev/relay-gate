@@ -2,7 +2,7 @@
 
 Uses one hand-made MAST-shaped fixture record (not downloaded data) so the
 adapter's parsing and labelling logic is checked independently of whatever
-is on disk in bench/external/mast/data/. A second, real-shaped smoke test
+is on disk in the external data directory. A second, real-shaped smoke test
 runs against the actual downloaded split when present, skipped otherwise.
 
 No network call is made by anything imported here.
@@ -10,6 +10,7 @@ No network call is made by anything imported here.
 
 from __future__ import annotations
 
+import os
 import pathlib
 import sys
 
@@ -26,12 +27,16 @@ for _p in (_BENCH_DIR, _SRC_DIR):
 import external_adapter as ea  # noqa: E402
 from relay_gate.gate import evaluate_trajectory  # noqa: E402
 
-# Downloaded data lives OUTSIDE the repo, at
-# M:/AGENT_VAULT/PORTFOLIO/bench/external/mast/data/ (the fetch-rule target
+# Downloaded data lives OUTSIDE the repo by default (the fetch-rule target
 # path), not under the repo's own bench/external/ (that folder holds
 # score_external.py and EXTERNAL_RESULTS.md instead -- see their headers).
-_PORTFOLIO_DIR = _REPO_DIR.parent.parent
-_EXTERNAL_DATA = _PORTFOLIO_DIR / "bench" / "external" / "mast" / "data" / "MAD_human_labelled_dataset.json"
+# Override with RELAY_GATE_MAST_RAW; falls back to the neutral relative
+# default shared with src/relay_gate/calibration.py.
+_EXTERNAL_DATA = pathlib.Path(
+    os.environ.get(
+        "RELAY_GATE_MAST_RAW", "./external_data/mast/data/MAD_human_labelled_dataset.json"
+    )
+)
 
 
 def _ann(mode_text: str, a1: bool, a2: bool, a3: bool) -> dict:

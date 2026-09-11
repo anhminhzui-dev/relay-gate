@@ -37,9 +37,13 @@ MAX_PRECEDING_ACTIONS = 40           # rolling window size
 CLAIM_TEXT_CHARS = 200               # claim_text is truncated to this many chars
 TARGET_CHARS = 300                   # action target (path/command) truncation
 
-DEFAULT_CLAUDE_GLOB = r"C:/Users/Admin/.claude/projects/C--Users-Admin-Desktop-researches/*.jsonl"
-DEFAULT_CODEX_GLOB = r"C:/Users/Admin/.codex/sessions/2026/**/*.jsonl"
-DEFAULT_OUT_DIR = r"M:/AGENT_VAULT/PORTFOLIO/bench/fake_done/trajectories"
+DEFAULT_CLAUDE_GLOB = os.environ.get(
+    "RELAY_GATE_CLAUDE_GLOB", os.path.expanduser("~/.claude/projects/*/*.jsonl")
+)
+DEFAULT_CODEX_GLOB = os.environ.get(
+    "RELAY_GATE_CODEX_GLOB", os.path.expanduser("~/.codex/sessions/**/*.jsonl")
+)
+DEFAULT_OUT_DIR = os.environ.get("RELAY_GATE_TRAJECTORIES_DIR", "./data/trajectories")
 
 # --- privacy: secret redaction ---------------------------------------------
 # sk- keys, key=/token=/Bearer headers, and any run of 32+ base64/hex chars

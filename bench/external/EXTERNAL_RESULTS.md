@@ -14,7 +14,7 @@ other, `MAD_full_dataset.json`, is 1,642 records and 200 MB) and the one
 carrying three independent human annotator votes per record rather than
 the paper's automated LLM annotator.
 
-Downloaded to `M:/AGENT_VAULT/PORTFOLIO/bench/external/mast/data/MAD_human_labelled_dataset.json`
+Downloaded to `./external_data/mast/data/MAD_human_labelled_dataset.json`
 (outside the relay-gate repository, per the fetch rule). Licence: cc-by-4.0,
 as stated on the dataset card.
 
@@ -229,5 +229,5 @@ this source's traces contain no relevant behaviour.
 - `bench/external/score_external.py` (this repo): runs the gate and all
   six rules over every record and prints the table above.
 - `bench/external/EXTERNAL_RESULTS.md` (this repo, this file).
-- `M:/AGENT_VAULT/PORTFOLIO/bench/external/mast/data/MAD_human_labelled_dataset.json`
+- `./external_data/mast/data/MAD_human_labelled_dataset.json`
   (outside the repo): the downloaded source data, 2,662,908 bytes.
